@@ -19,7 +19,8 @@ class Command(BaseCommand):
         for team in TEST_TEAMS:
             members = [user_objs[email] for email in team['members'] if email in user_objs]
             obj, _ = Team.objects.get_or_create(name=team['name'])
-            obj.members.set(members)
+            for member in members:
+                obj.members.add(member)
             obj.save()
 
         self.stdout.write(self.style.SUCCESS('Populating workouts...'))
